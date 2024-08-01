@@ -1,1 +1,26 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array Frequency Finder</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Encontrar el numero que mas se repite</h1>
+        <textarea id="arrayInput" placeholder="Ingresa los numeros separados por comas"></textarea>
+        <div class="buttons">
+            <button onclick="findMostFrequent('mergeSort')">Merge Sort</button>
+            <button onclick="findMostFrequent('insertionSort')">Insertion Sort</button>
+            <button onclick="findMostFrequent('countingSort')">Counting Sort</button>
+        </div>
+        <div class="results">
+            <p id="mergeSortResult"></p>
+            <p id="insertionSortResult"></p>
+            <p id="countingSortResult"></p>
+        </div>
+    </div>
+    <script type="module" src="src/controllers/Scripts.mjs"></script>
+</body>
+</html>
