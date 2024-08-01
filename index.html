@@ -1,1 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encontrar Modo del Array</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Encontrar el Número que Aparece Más Veces</h1>
+        <div class="form-group">
+            <label for="arrayInput">Ingresa números separados por comas:</label>
+            <input type="text" id="arrayInput" placeholder="Ejemplo: 1,2,2,3,3,3,4,4">
+        </div>
+        <div class="form-group">
+            <label for="algorithmSelect">Selecciona el algoritmo:</label>
+            <select id="algorithmSelect">
+                <option value="mergeSort">Merge Sort</option>
+                <option value="countingSort">Counting Sort</option>
+                <option value="insertionSort">Insertion Sort</option>
+            </select>
+        </div>
+        <button onclick="findMode()">Encontrar Modo</button>
+        <div id="result" style="margin-top: 20px;"></div>
+    </div>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
 
