@@ -1,56 +1,32 @@
 <!DOCTYPE html>
-
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Encontrar Modo del Array</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <div class="container">
-        <h1>Encontrar el Número que Aparece Más Veces</h1>
-        <div class="form-group">
-            <label for="arrayInput">Ingresa números separados por comas:</label>
-            <input type="text" id="arrayInput" placeholder="Ejemplo: 1,2,2,3,3,3,4,4">
-        </div>
-        <div class="form-group">
-            <label for="algorithmSelect">Selecciona el algoritmo:</label>
-            <select id="algorithmSelect">
-                <option value="mergeSort">Merge Sort</option>
-                <option value="countingSort">Counting Sort</option>
-                <option value="insertionSort">Insertion Sort</option>
-            </select>
-        </div>
-        <button onclick="findMode()">Encontrar Modo</button>
-        <div id="result" style="margin-top: 20px;"></div>
-    </div>
-
-    <script src="scripts.js"></script>
-</body>
-</html>
-
-=======
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Array Frequency Finder</title>
     <link rel="stylesheet" href="index.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="container">
-        <h1>Encontrar el numero que mas se repite</h1>
-        <textarea id="arrayInput" placeholder="Ingresa los numeros separados por comas"></textarea>
+        <h1>Encontrar el Número Más Frecuente</h1>
+        <textarea id="arrayInput" placeholder="Ingresa los números separados por comas"></textarea>
         <div class="buttons">
             <button onclick="findMostFrequent('mergeSort')">Merge Sort</button>
             <button onclick="findMostFrequent('insertionSort')">Insertion Sort</button>
             <button onclick="findMostFrequent('countingSort')">Counting Sort</button>
+            <button onclick="clearResults()">Borrar resultados</button>
         </div>
         <div class="results">
             <p id="mergeSortResult"></p>
             <p id="insertionSortResult"></p>
             <p id="countingSortResult"></p>
+        </div>
+        <div class="chart-container">
+            <canvas id="timeChart" width="400" height="200"></canvas>
+        </div>
+        <div class="chart-container">
+            <canvas id="iterationChart" width="400" height="200"></canvas>
         </div>
     </div>
     <script type="module" src="src/controllers/Scripts.mjs"></script>
