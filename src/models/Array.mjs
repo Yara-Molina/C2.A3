@@ -89,3 +89,5 @@ export function findMostFrequentElement(arr) {
 
     return { element: mostFrequentElement, count: maxCount };
 }
+}
+
