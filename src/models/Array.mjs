@@ -1,81 +1,91 @@
 export function mergeSort(arr) {
-    if (arr.length <= 1) {
-        return arr;
-    }
-    const mid = Math.floor(arr.length / 2);
-    const left = arr.slice(0, mid);
-    const right = arr.slice(mid);
+    let iterations = 0;
 
-    return merge(mergeSort(left), mergeSort(right));
-}
+    function merge(left, right) {
+        let result = [];
+        let leftIndex = 0;
+        let rightIndex = 0;
 
-function merge(left, right) {
-    let result = [], leftIndex = 0, rightIndex = 0;
-
-    while (leftIndex < left.length && rightIndex < right.length) {
-        if (left[leftIndex] < right[rightIndex]) {
-            result.push(left[leftIndex]);
-            leftIndex++;
-        } else {
-            result.push(right[rightIndex]);
-            rightIndex++;
+        while (leftIndex < left.length && rightIndex < right.length) {
+            iterations++;
+            if (left[leftIndex] < right[rightIndex]) {
+                result.push(left[leftIndex]);
+                leftIndex++;
+            } else {
+                result.push(right[rightIndex]);
+                rightIndex++;
+            }
         }
+        return result.concat(left.slice(leftIndex)).concat(right.slice(rightIndex));
     }
 
-    return result.concat(left.slice(leftIndex)).concat(right.slice(rightIndex));
+    function mergeSortRecursive(array) {
+        if (array.length <= 1) {
+            return array;
+        }
+        const middleIndex = Math.floor(array.length / 2);
+        const left = array.slice(0, middleIndex);
+        const right = array.slice(middleIndex);
+        return merge(mergeSortRecursive(left), mergeSortRecursive(right));
+    }
+
+    const sortedArray = mergeSortRecursive(arr);
+    return { sortedArray, iterations };
 }
 
 export function insertionSort(arr) {
+    let iterations = 0;
     for (let i = 1; i < arr.length; i++) {
         let key = arr[i];
         let j = i - 1;
         while (j >= 0 && arr[j] > key) {
+            iterations++;
             arr[j + 1] = arr[j];
-            j = j - 1;
+            j--;
         }
         arr[j + 1] = key;
     }
-    return arr;
+    return { sortedArray: arr, iterations };
 }
 
 export function countingSort(arr) {
+    let iterations = 0;
     const max = Math.max(...arr);
     const min = Math.min(...arr);
-    const range = max - min + 1;
-    const count = new Array(range).fill(0);
-    const output = new Array(arr.length).fill(0);
+    const count = Array(max - min + 1).fill(0);
 
-    for (let i = 0; i < arr.length; i++) {
-        count[arr[i] - min]++;
-    }
+    arr.forEach(num => {
+        iterations++;
+        count[num - min]++;
+    });
 
-    for (let i = 1; i < count.length; i++) {
-        count[i] += count[i - 1];
-    }
+    let sortedIndex = 0;
+    count.forEach((num, i) => {
+        while (num > 0) {
+            iterations++;
+            arr[sortedIndex++] = i + min;
+            num--;
+        }
+    });
 
-    for (let i = arr.length - 1; i >= 0; i--) {
-        output[count[arr[i] - min] - 1] = arr[i];
-        count[arr[i] - min]--;
-    }
-
-    return output;
+    return { sortedArray: arr, iterations };
 }
 
 export function findMostFrequentElement(arr) {
-    let maxCount = 1, count = 1, mostFrequent = arr[0];
+    const freqMap = {};
+    let maxCount = 0;
+    let mostFrequentElement = arr[0];
 
-    for (let i = 1; i < arr.length; i++) {
-        if (arr[i] === arr[i - 1]) {
-            count++;
-        } else {
-            count = 1;
+    arr.forEach(num => {
+        if (freqMap[num] === undefined) {
+            freqMap[num] = 0;
         }
-
-        if (count > maxCount) {
-            maxCount = count;
-            mostFrequent = arr[i];
+        freqMap[num]++;
+        if (freqMap[num] > maxCount) {
+            maxCount = freqMap[num];
+            mostFrequentElement = num;
         }
-    }
+    });
 
-    return { element: mostFrequent, count: maxCount };
+    return { element: mostFrequentElement, count: maxCount };
 }
