@@ -194,4 +194,4 @@ window.findMostFrequent = function(sortMethod) {
     updateCharts();
 }
 
-window.clearResults = clearResults;
+window.clearResults = clearResults
