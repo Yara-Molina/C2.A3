@@ -6,7 +6,7 @@ const executionTimes = {
     countingSort: 0
 };
 
-const iterationTimes = {
+const iterationCounts = {
     mergeSort: 0,
     insertionSort: 0,
     countingSort: 0
@@ -17,14 +17,14 @@ let chartInstances = {
     iteration: null
 };
 
-function measureTime(func, args = []) {
+function measureTimeAndIterations(func, args = []) {
     if (!Array.isArray(args)) {
         throw new TypeError('Arguments must be an array.');
     }
     const start = performance.now();
-    const result = func(...args);
+    const { sortedArray, iterations } = func(...args);
     const end = performance.now();
-    return { result, time: end - start };
+    return { result: sortedArray, time: end - start, iterations };
 }
 
 function updateCharts() {
@@ -32,7 +32,7 @@ function updateCharts() {
     const ctxIteration = document.getElementById('iterationChart').getContext('2d');
 
     console.log('Execution times:', executionTimes);
-    console.log('Iteration times:', iterationTimes);
+    console.log('Iteration counts:', iterationCounts);
 
     if (chartInstances.execution) {
         chartInstances.execution.destroy();
@@ -72,11 +72,11 @@ function updateCharts() {
         data: {
             labels: ['Merge Sort', 'Insertion Sort', 'Counting Sort'],
             datasets: [{
-                label: 'Tiempo de Iteración (ms)',
+                label: 'Conteo de Iteraciones',
                 data: [
-                    iterationTimes.mergeSort,
-                    iterationTimes.insertionSort,
-                    iterationTimes.countingSort
+                    iterationCounts.mergeSort,
+                    iterationCounts.insertionSort,
+                    iterationCounts.countingSort
                 ],
                 backgroundColor: 'rgba(255, 159, 64, 0.5)',
                 borderColor: 'rgba(255, 159, 64, 1)',
@@ -116,7 +116,7 @@ function clearResults() {
             datasets: [{
                 label: 'Tiempo de Ejecución (ms)',
                 data: [0, 0, 0],
-                backgroundColor: 'rgba(144, 238, 144, 0.5)', // Verde claro
+                backgroundColor: 'rgba(144, 238, 144, 0.5)', 
                 borderColor: 'rgba(75, 192, 192, 1)',
                 borderWidth: 1
             }]
@@ -135,9 +135,9 @@ function clearResults() {
         data: {
             labels: ['Merge Sort', 'Insertion Sort', 'Counting Sort'],
             datasets: [{
-                label: 'Tiempo de Iteración (ms)',
+                label: 'Conteo de Iteraciones',
                 data: [0, 0, 0],
-                backgroundColor: 'rgba(255, 159, 64, 0.5)', // Naranja claro
+                backgroundColor: 'rgba(255, 159, 64, 0.5)', 
                 borderColor: 'rgba(255, 159, 64, 1)',
                 borderWidth: 1
             }]
@@ -158,32 +158,28 @@ window.findMostFrequent = function(sortMethod) {
     let sortedArray;
     let resultElement;
     let timingInfo;
-    let iterationTime;
 
     switch (sortMethod) {
         case 'mergeSort':
-            timingInfo = measureTime(mergeSort, [array]);
+            timingInfo = measureTimeAndIterations(mergeSort, [array]);
             sortedArray = timingInfo.result;
             resultElement = document.getElementById('mergeSortResult');
             executionTimes.mergeSort = timingInfo.time;
-            iterationTime = measureTime(() => mergeSort(array.slice())).time; // Use a copy of the array
-            iterationTimes.mergeSort = iterationTime;
+            iterationCounts.mergeSort = timingInfo.iterations;
             break;
         case 'insertionSort':
-            timingInfo = measureTime(insertionSort, [array]);
+            timingInfo = measureTimeAndIterations(insertionSort, [array]);
             sortedArray = timingInfo.result;
             resultElement = document.getElementById('insertionSortResult');
             executionTimes.insertionSort = timingInfo.time;
-            iterationTime = measureTime(() => insertionSort(array.slice())).time; // Use a copy of the array
-            iterationTimes.insertionSort = iterationTime;
+            iterationCounts.insertionSort = timingInfo.iterations;
             break;
         case 'countingSort':
-            timingInfo = measureTime(countingSort, [array]);
+            timingInfo = measureTimeAndIterations(countingSort, [array]);
             sortedArray = timingInfo.result;
             resultElement = document.getElementById('countingSortResult');
             executionTimes.countingSort = timingInfo.time;
-            iterationTime = measureTime(() => countingSort(array.slice())).time; // Use a copy of the array
-            iterationTimes.countingSort = iterationTime;
+            iterationCounts.countingSort = timingInfo.iterations;
             break;
     }
 
@@ -191,10 +187,10 @@ window.findMostFrequent = function(sortMethod) {
     resultElement.innerHTML = `
         <p>El elemento más frecuente es ${mostFrequent.element} con ${mostFrequent.count} ocurrencias.</p>
         <p>Tiempo de ejecución: ${timingInfo.time.toFixed(2)} ms</p>
-        <p>Tiempo de iteración: ${iterationTime.toFixed(2)} ms</p>
+        <p>Conteo de iteraciones: ${timingInfo.iterations}</p>
     `;
 
     updateCharts();
 }
 
-window.clearResults = clearResults
+window.clearResults = clearResults;
