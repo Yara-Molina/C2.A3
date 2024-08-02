@@ -17,7 +17,10 @@ let chartInstances = {
     iteration: null
 };
 
-function measureTime(func, args) {
+function measureTime(func, args = []) {
+    if (!Array.isArray(args)) {
+        throw new TypeError('Arguments must be an array.');
+    }
     const start = performance.now();
     const result = func(...args);
     const end = performance.now();
@@ -50,7 +53,7 @@ function updateCharts() {
                     executionTimes.insertionSort,
                     executionTimes.countingSort
                 ],
-                backgroundColor: 'rgba(144, 238, 144, 0.5)', // Verde claro
+                backgroundColor: 'rgba(144, 238, 144, 0.5)', 
                 borderColor: 'rgba(75, 192, 192, 1)',
                 borderWidth: 1
             }]
@@ -75,7 +78,7 @@ function updateCharts() {
                     iterationTimes.insertionSort,
                     iterationTimes.countingSort
                 ],
-                backgroundColor: 'rgba(255, 159, 64, 0.5)', // Naranja claro
+                backgroundColor: 'rgba(255, 159, 64, 0.5)',
                 borderColor: 'rgba(255, 159, 64, 1)',
                 borderWidth: 1
             }]
@@ -163,7 +166,7 @@ window.findMostFrequent = function(sortMethod) {
             sortedArray = timingInfo.result;
             resultElement = document.getElementById('mergeSortResult');
             executionTimes.mergeSort = timingInfo.time;
-            iterationTime = measureTime(() => mergeSort(array), [array]).time;
+            iterationTime = measureTime(() => mergeSort(array.slice())).time; // Use a copy of the array
             iterationTimes.mergeSort = iterationTime;
             break;
         case 'insertionSort':
@@ -171,7 +174,7 @@ window.findMostFrequent = function(sortMethod) {
             sortedArray = timingInfo.result;
             resultElement = document.getElementById('insertionSortResult');
             executionTimes.insertionSort = timingInfo.time;
-            iterationTime = measureTime(() => insertionSort(array), [array]).time;
+            iterationTime = measureTime(() => insertionSort(array.slice())).time; // Use a copy of the array
             iterationTimes.insertionSort = iterationTime;
             break;
         case 'countingSort':
@@ -179,7 +182,7 @@ window.findMostFrequent = function(sortMethod) {
             sortedArray = timingInfo.result;
             resultElement = document.getElementById('countingSortResult');
             executionTimes.countingSort = timingInfo.time;
-            iterationTime = measureTime(() => countingSort(array), [array]).time;
+            iterationTime = measureTime(() => countingSort(array.slice())).time; // Use a copy of the array
             iterationTimes.countingSort = iterationTime;
             break;
     }
